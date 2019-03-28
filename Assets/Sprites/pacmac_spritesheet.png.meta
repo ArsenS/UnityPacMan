@@ -1394,9 +1394,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 126
-        y: 192
-        width: 28
-        height: 24
+        y: 207
+        width: 14
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -4825,6 +4825,46 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 22ab13499210b43468357da9bb666414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pacmac_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 192
+        width: 2
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67120da6eab04644a8fdfbbe5c1a872b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pacmac_spritesheet_58
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 192
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8086f30c5f11e9e40bc04051aabd83af
       vertices: []
       indices: 
       edges: []
