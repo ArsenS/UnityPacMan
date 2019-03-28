@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
         {
             rb2D.MovePosition(rb2D.position + (direction * speed) * Time.fixedDeltaTime);
         }
-        print(rb2D.IsSleeping());
     }
 
     void UpdateDirection()
@@ -67,4 +66,14 @@ public class Player : MonoBehaviour
         circleCollider.enabled = true;
         return (hit.collider == null);
     }
+
+    public void TeleportLeft()
+    {
+        rb2D.position = rb2D.position + new Vector2(-4.5f, 0f);
+    }
+
+    public void TeleportRight()
+    {
+        rb2D.position = rb2D.position + new Vector2(4.5f, 0f);
+    } 
 }
