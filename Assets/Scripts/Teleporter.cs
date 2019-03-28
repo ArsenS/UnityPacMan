@@ -8,6 +8,9 @@ public class Teleporter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //TODO
+        //refactor to go through GameManager
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         print(gameObject.name);
         if (gameObject.name == "LeftTeleporter")

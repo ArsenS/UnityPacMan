@@ -32,7 +32,11 @@ public class Player : MonoBehaviour
         {
             rb2D.MovePosition(rb2D.position + (direction * speed) * Time.fixedDeltaTime);
         }
-    }
+        else
+        {
+            animator.SetTrigger("stoppedMoving");
+        }
+     }
 
     void UpdateDirection()
     {

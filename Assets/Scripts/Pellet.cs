@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class Pellet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        gameObject.SetActive(false);
+        if (collision.name == "Player")
+        {
+            //TODO
+            //small pellets = points
+            //power pellets = super pacman mode
+
+            Destroy(gameObject);
+        }
+        
     }
 }
