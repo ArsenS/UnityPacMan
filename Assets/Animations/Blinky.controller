@@ -74,14 +74,14 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102276923792444080
+--- !u!1102 &1102085409136783970
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WeakState
+  m_Name: GhostFrightened2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -94,7 +94,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 474f37028987bc5468343d2066b454ab, type: 2}
+  m_Motion: {fileID: 7400000, guid: dda8f7a83d5574d4485137518fe4de89, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102155505973402312
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GhostFrightened1
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 4015ca1301fb5bf4f9b46fb1b397d524, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -174,8 +200,11 @@ AnimatorStateMachine:
     m_State: {fileID: 1102588063540865756}
     m_Position: {x: 312, y: 192, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 1102276923792444080}
-    m_Position: {x: 300, y: 252, z: 0}
+    m_State: {fileID: 1102155505973402312}
+    m_Position: {x: 335, y: 317, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102085409136783970}
+    m_Position: {x: 370, y: 382, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

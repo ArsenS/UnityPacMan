@@ -80,4 +80,9 @@ public class Player : MonoBehaviour
     {
         rb2D.position = rb2D.position + new Vector2(4.5f, 0f);
     } 
+
+    public void Death()
+    {
+        animator.SetTrigger("hasDied");
+    }
 }

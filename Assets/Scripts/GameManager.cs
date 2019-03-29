@@ -7,9 +7,10 @@ public class GameManager : MonoBehaviour
 {
     private int hiScore;
     public Text hiScoreText;
+    [SerializeField]
     private Player player;
-    private Teleporter leftTeleporter;
-    private Teleporter rightTeleporter;
+    [SerializeField]
+    private Teleporter leftTeleporter, rightTeleporter;
     private List<Pellet> pellets;
 
     // Start is called before the first frame update
@@ -17,9 +18,6 @@ public class GameManager : MonoBehaviour
     {
         hiScore = 0;
         hiScoreText.text = "HI-SCORE: " + hiScore;
-        player = GetComponent<Player>();
-        leftTeleporter = GameObject.Find("LeftTeleporter").GetComponent<Teleporter>();
-        rightTeleporter = GameObject.Find("RightTeleporter").GetComponent<Teleporter>();
         CreatePelletsList();
     }
 
@@ -46,6 +44,23 @@ public class GameManager : MonoBehaviour
     {
         //TODO
         //end state logic
+    }
+
+    public void TeleportPlayer(GameObject teleporter)
+    {
+        if (teleporter.name == "LeftTeleporter")
+        {
+            player.TeleportRight();
+        }
+        if (teleporter.name == "RightTeleporter")
+        {
+            player.TeleportLeft();
+        }
+    }
+
+    public void PlayerHasDied()
+    {
+        player.Death();
     }
 
     public void PelletEaten(GameObject pellet)
