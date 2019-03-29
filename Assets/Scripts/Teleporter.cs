@@ -12,7 +12,7 @@ public class Teleporter : MonoBehaviour
         //refactor to go through GameManager
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        print(gameObject.name);
+
         if (gameObject.name == "LeftTeleporter")
         {
             player.TeleportRight();

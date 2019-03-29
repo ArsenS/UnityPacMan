@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Pellet : MonoBehaviour
 {
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "Player")
+        if (collision.name == "PacMan")
         {
-            //TODO
-            //small pellets = points
-            //power pellets = super pacman mode
-
-            Destroy(gameObject);
+            gameManager.PelletEaten(gameObject);
         }
         
     }
