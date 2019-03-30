@@ -60,9 +60,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Blinky.cs" />
+    <Compile Include="Assets\Scripts\Clyde.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Ghost.cs" />
+    <Compile Include="Assets\Scripts\Inky.cs" />
     <Compile Include="Assets\Scripts\Pellet.cs" />
+    <Compile Include="Assets\Scripts\Pinky.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Teleporter.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">

@@ -40,10 +40,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void LevelComplete()
+    public void PelletEaten(GameObject pellet)
     {
-        //TODO
-        //end state logic
+        pellets.Remove(pellet.GetComponent<Pellet>());
+        if (pellet.tag == "PowerPellet")
+        {
+            print("PacManTime!");
+        }
+        UpdateScore(pellet);
+        Destroy(pellet);
     }
 
     public void TeleportPlayer(GameObject teleporter)
@@ -58,16 +63,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Vector2 GetPlayerPosition()
+    {
+        return player.transform.position;
+    }
+
     public void PlayerHasDied()
     {
         player.Death();
     }
 
-    public void PelletEaten(GameObject pellet)
+    void LevelComplete()
     {
-        pellets.Remove(pellet.GetComponent<Pellet>());
-        UpdateScore(pellet);
-        Destroy(pellet);
+        //TODO
+        //end state logic
     }
 
     void UpdateScore(GameObject pellet)

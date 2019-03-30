@@ -13,6 +13,5 @@ public class Pellet : MonoBehaviour
         {
             gameManager.PelletEaten(gameObject);
         }
-        
     }
 }
