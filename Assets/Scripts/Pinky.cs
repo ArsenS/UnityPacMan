@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Pinky : Ghost
 {
+    void Start()
+    {
+        base.Start();
+    }
+
     void Update()
     {
         if (!CanMove(currentDirection))
@@ -32,7 +37,7 @@ public class Pinky : Ghost
         {
             choice = Vector2.right;
         }
-        if (IsDifferentFromPreviousDirection(choice))
+        if (IsValidNewDirection(choice))
         {
             UpdateDirection(choice);
         }

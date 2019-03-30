@@ -33,7 +33,7 @@ public class Clyde : Ghost
         {
             choice = Vector2.right;
         }
-        if (IsDifferentFromPreviousDirection(choice))
+        if (IsValidNewDirection(choice))
         {
             UpdateDirection(choice);
         }

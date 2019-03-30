@@ -4,35 +4,42 @@ using UnityEngine;
 
 public class Blinky : Ghost
 {
+    private float moveTime = 0f;
+
+    void Start()
+    {
+        base.Start();
+    }
+    
     void Update()
     {
-        if (!CanMove(currentDirection))
+        moveTime += Time.deltaTime;
+        if ((moveTime >= 2f || (!CanMove(currentDirection)) && CanChangeDirection()))
         {
             PickNewDirection();
+            moveTime = 0f;
         }
     }
-
+    
     void PickNewDirection()
-    {
-        float randVal = Random.Range(0f, 1f);
-        Vector2 choice;
-        if (randVal < 0.25f)
+    {   
+        Vector2 choice = Vector2.zero;
+        Vector2 ghostPosition = GetPosition();
+        target = gameManager.GetPlayerPosition();
+        //print(target);
+        Vector2 vectorToTarget = ghostPosition - target;
+        
+        if (Mathf.Abs(vectorToTarget.x) < Mathf.Abs(vectorToTarget.y))
         {
-            choice = Vector2.up;
-        } 
-        else if (randVal >= 0.25f && randVal < 0.5f)
-        {
-            choice = Vector2.down;
-        }
-        else if (randVal >= 0.5f && randVal < 0.75f)
-        {
-            choice = Vector2.left;
+            choice = new Vector2(vectorToTarget.x, 0f).normalized;
         }
         else
         {
-            choice = Vector2.right;
+            //moving on the y axis
+            choice = new Vector2(0f, vectorToTarget.y).normalized;
         }
-        if (IsDifferentFromPreviousDirection(choice))
+        print(choice);
+        if (IsValidNewDirection(choice))
         {
             UpdateDirection(choice);
         }

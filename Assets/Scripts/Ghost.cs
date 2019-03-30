@@ -6,22 +6,22 @@ using UnityEngine;
 public class Ghost : MonoBehaviour
 {
     [SerializeField]
-    private GameManager gameManager;
+    protected GameManager gameManager;
     [SerializeField]
     private GameObject scatterModeTarget;
 
-    protected PolygonCollider2D polyCollider;
-    protected Rigidbody2D rb2D;
+    private PolygonCollider2D polyCollider;
+    private Rigidbody2D rb2D;
     private Animator animator;
 
     protected int timerToEnterMaze, timerToChangePhase = 20;
     protected Vector2 currentDirection = Vector2.left;
-    protected Vector2 previousDirection = new Vector2(0f, 0f);
+    protected Vector2 previousDirection = Vector2.zero;
     protected Vector2 target;
        
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         timerToEnterMaze = 0;
         polyCollider = GetComponent<PolygonCollider2D>();
@@ -32,7 +32,12 @@ public class Ghost : MonoBehaviour
     void FixedUpdate()
     {
         UpdateAnimator();
-        rb2D.MovePosition(rb2D.position + (currentDirection) * Time.fixedDeltaTime);
+        if (CanMove(currentDirection)) rb2D.MovePosition(rb2D.position + (currentDirection) * Time.fixedDeltaTime);
+    }
+
+    protected Vector2 GetPosition()
+    {
+        return rb2D.position;
     }
 
     void UpdateAnimator()
@@ -54,7 +59,7 @@ public class Ghost : MonoBehaviour
             animator.SetTrigger("movingRight");
         }
     }
-
+    
     protected void UpdateDirection(Vector2 newDirection)
     {
         previousDirection = currentDirection;
@@ -65,7 +70,7 @@ public class Ghost : MonoBehaviour
     {
         Vector2 pos = transform.position;
         polyCollider.enabled = false; // disable to avoid colliding with itself
-        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.05f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.04f);
         polyCollider.enabled = true;
         if (hit.collider != null)
         {
@@ -77,9 +82,32 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    protected bool IsDifferentFromPreviousDirection(Vector2 newDirection)
+    protected bool CanChangeDirection()
     {
-        return newDirection != previousDirection;
+        bool canChange = false;
+        if (IsValidNewDirection(Vector2.up) && CanMove(Vector2.up))
+        {
+            canChange = true;
+        }
+        if (IsValidNewDirection(Vector2.left) && CanMove(Vector2.left))
+        {
+            canChange = true;
+        }
+        if (IsValidNewDirection(Vector2.down) && CanMove(Vector2.down))
+        {
+            canChange = true;
+        }
+        if (IsValidNewDirection(Vector2.right) && CanMove(Vector2.right))
+        {
+            canChange = true;
+        }
+ 
+        return canChange;
+    }
+
+    protected bool IsValidNewDirection(Vector2 newDirection)
+    {
+        return (newDirection != previousDirection) && (newDirection != currentDirection);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

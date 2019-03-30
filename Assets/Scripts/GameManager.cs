@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     private Teleporter leftTeleporter, rightTeleporter;
     private List<Pellet> pellets;
 
+    private int smallPelletPoints = 10;
+    private int powerPelletPoints = 50;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,10 +48,15 @@ public class GameManager : MonoBehaviour
         pellets.Remove(pellet.GetComponent<Pellet>());
         if (pellet.tag == "PowerPellet")
         {
-            print("PacManTime!");
+            ActivateSuperPacManPhase();
         }
         UpdateScore(pellet);
         Destroy(pellet);
+    }
+
+    void ActivateSuperPacManPhase()
+    {
+
     }
 
     public void TeleportPlayer(GameObject teleporter)
@@ -83,11 +91,11 @@ public class GameManager : MonoBehaviour
     {
         if (pellet.tag == "SmallPellet")
         {
-            hiScore += 10;
+            hiScore += smallPelletPoints;
         }
         else if (pellet.tag == "PowerPellet")
         {
-            hiScore += 50;
+            hiScore += powerPelletPoints;
         }
         hiScoreText.text = "HI-SCORE: " + hiScore;
     }
