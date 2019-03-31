@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
+    [SerializeField]
     protected GameController gameController;
     private PolygonCollider2D polyCollider;
     private Rigidbody2D rb2D;
@@ -77,9 +78,7 @@ public class Ghost : MonoBehaviour
     protected bool CanMove(Vector2 direction)
     {
         Vector2 pos = transform.position;
-        //polyCollider.enabled = false; // disable to avoid colliding with itself
         RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.17f, 0.17f), 0f, direction, 0.05f);
-        //polyCollider.enabled = true;
         if (hit.collider != null)
         {
             return hit.collider.isTrigger;
@@ -98,6 +97,12 @@ public class Ghost : MonoBehaviour
     protected void EnterMaze()
     {
         rb2D.position += Vector2.up * 0.4f;
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+        gameObject.SetActive(false);
     }
 
     protected void StopMoving()
@@ -160,11 +165,6 @@ public class Ghost : MonoBehaviour
         return rb2D.position;
     }
 
-    public void Deactivate()
-    {
-        isActive = false;
-    }
-
     public void ActivateFrightenedState()
     {
         isFrightened = true;
@@ -189,7 +189,6 @@ public class Ghost : MonoBehaviour
             {
                 gameController.PlayerHasDied();
             }
-
         }
         else if (collision.name == "LeftTeleporter" || collision.name == "RightTeleporter")
         {

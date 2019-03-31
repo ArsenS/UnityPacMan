@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Blinky : Ghost
 {
-    void Start()
-    {
-        base.Start();
-    }
-
     void Update()
     {
         moveTime += Time.deltaTime;

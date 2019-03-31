@@ -11,9 +11,13 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private Player player;
+
     [SerializeField]
-    private Ghost blinky, pinky, inky, clyde;
-    private List<Ghost> ghosts;
+    private Ghost[] ghosts;
+
+    [SerializeField]
+    AudioController audioController;
+
     [SerializeField]
     private Teleporter leftTeleporter, rightTeleporter;
     private List<Pellet> pellets;
@@ -30,14 +34,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioController.PlayStartMusic();
         hiScore = 0;
         hiScoreText.text = "HI-SCORE: " + hiScore;
         CreatePelletsList();
-        ghosts = new List<Ghost>();
-        ghosts.Add(blinky);
-        ghosts.Add(pinky);
-        ghosts.Add(inky);
-        ghosts.Add(clyde);
     }
 
     void Update()
@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
     void StartGame()
     {
         player = Instantiate(player) as Player;
-        instructions.gameObject.SetActive(false);
+        instructions.text = "";
         foreach (Ghost ghost in ghosts)
         {
             ghost.Activate();
@@ -92,10 +92,12 @@ public class GameController : MonoBehaviour
         }
         UpdateScore(pellet.tag);
         Destroy(pellet);
-
+        audioController.PlayEatingSound();
         if (pellets.Count == 0)
         {
-            LevelComplete();
+            DeactivateGhosts();
+            player.gameObject.SetActive(false);
+            GameOver("You win!");
         }
     }
 
@@ -137,24 +139,6 @@ public class GameController : MonoBehaviour
         return player;
     }
 
-    public Ghost GetGhost(string name)
-    {
-        Ghost ghostToTeleport = null;
-        foreach (Ghost ghost in ghosts)
-        {
-            if (ghost.name == name)
-            {
-                ghostToTeleport = ghost;
-            }
-        }
-        return ghostToTeleport;
-    }
-
-    public void TeleportGhost(GameObject teleporter, Collider2D ghost)
-    {
-
-    }
-
     public Vector2 GetPlayerPosition()
     {
         return player.transform.position;
@@ -169,7 +153,8 @@ public class GameController : MonoBehaviour
     {
         DeactivateGhosts();
         StartCoroutine(player.Death());
-        gameHasEnded = true;
+        audioController.PlayDeathSoundEffect();
+        GameOver("Game Over!");
     }
 
     private void DeactivateGhosts()
@@ -180,10 +165,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void LevelComplete()
+    void GameOver(string message)
     {
-        //TODO
-        //end state logic
+        gameHasEnded = true;
+        instructions.text = message + "\n Press Enter to play again.";
     }
 
     void RestartGame()

@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Pinky : Ghost
 {
-    void Start()
-    {
-        base.Start();
-    }
-
     void Update()
     {
         if (isActive && timeToEnterMaze < 2f)
@@ -37,7 +32,7 @@ public class Pinky : Ghost
 
     void PickNewDirection()
     {
-        //Pinky tries to get in front of PacMan and cut him off
+        //Pinky tries to get in front of PacMan to ambush him
         Vector2 choice = Vector2.zero;
         Vector2 ghostPosition = GetPosition();
         target = gameController.GetPlayerPosition() + gameController.GetPlayerDirection();

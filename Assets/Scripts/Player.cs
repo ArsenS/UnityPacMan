@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     {
         Vector2 pos = transform.position;
         circleCollider.enabled = false; // disable to avoid colliding with itself
-        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.045f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.17f, 0.17f), 0f, direction, 0.05f);
         circleCollider.enabled = true;
 
         if (hit.collider != null && (hit.collider.name == "LeftTeleporter" || hit.collider.name == "RightTeleporter"))

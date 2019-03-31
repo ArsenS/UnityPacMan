@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Clyde : Ghost
 {
-    void Start()
-    {
-        base.Start();
-    }
-
     void Update()
     {
         if (isActive && timeToEnterMaze < 20f)

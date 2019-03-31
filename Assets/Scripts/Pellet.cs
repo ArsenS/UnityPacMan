@@ -7,8 +7,6 @@ public class Pellet : MonoBehaviour
     [SerializeField]
     private GameController gameController;
 
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")

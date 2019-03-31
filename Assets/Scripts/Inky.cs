@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Inky : Ghost
 {
-    void Start()
-    {
-        base.Start();
-    }
-
     void Update()
     {
         if (isActive && timeToEnterMaze < 10f)
