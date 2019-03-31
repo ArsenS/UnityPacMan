@@ -11,16 +11,15 @@ public class Pinky : Ghost
 
     void Update()
     {
-        if (!isActive && timeToEnterMaze < 2f)
+        if (isActive && timeToEnterMaze < 2f)
         {
-            print("time");
             timeToEnterMaze += Time.deltaTime;
             if (timeToEnterMaze >= 2f)
             {
                 EnterMaze();
             }
         }
-        else
+        else if (isActive)
         {
             moveTime += Time.deltaTime;
             if (CanChangeDirection())

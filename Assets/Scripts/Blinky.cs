@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class Blinky : Ghost
 {
-
     void Start()
     {
         base.Start();
-        isActive = true;
     }
-    
+
     void Update()
     {
         moveTime += Time.deltaTime;
-         if (CanChangeDirection())
+        if (CanChangeDirection())
         {
             if (!CanMove(currentDirection) || moveTime > 1f)
             {

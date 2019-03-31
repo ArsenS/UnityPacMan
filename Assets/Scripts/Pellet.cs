@@ -5,13 +5,15 @@ using UnityEngine;
 public class Pellet : MonoBehaviour
 {
     [SerializeField]
-    private GameController gameManager;
+    private GameController gameController;
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "PacMan")
+        if (collision.tag == "Player")
         {
-            gameManager.PelletEaten(gameObject);
+            gameController.PelletEaten(gameObject);
         }
     }
 }

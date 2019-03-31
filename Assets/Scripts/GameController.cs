@@ -7,21 +7,25 @@ public class GameController : MonoBehaviour
 {
     private int hiScore;
     public Text hiScoreText;
+    public Text instructions;
 
     [SerializeField]
     private Player player;
     [SerializeField]
-    private Ghost[] ghosts;
+    private Ghost blinky, pinky, inky, clyde;
+    private List<Ghost> ghosts;
     [SerializeField]
     private Teleporter leftTeleporter, rightTeleporter;
     private List<Pellet> pellets;
 
-    private float frightenedStateLength = 5f;
+    private bool gameHasStarted = false;
+    private bool gameHasEnded = false;
+
+    private float frightenedStateLength = 10f;
     private bool frightenedStateActive = false;
 
     private int smallPelletPoints = 10;
     private int powerPelletPoints = 50;
-    private int ghostPoints = 200;
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +33,24 @@ public class GameController : MonoBehaviour
         hiScore = 0;
         hiScoreText.text = "HI-SCORE: " + hiScore;
         CreatePelletsList();
+        ghosts = new List<Ghost>();
+        ghosts.Add(blinky);
+        ghosts.Add(pinky);
+        ghosts.Add(inky);
+        ghosts.Add(clyde);
     }
 
     void Update()
     {
+        if (!gameHasStarted && Input.GetKey(KeyCode.Return))
+        {
+            StartGame();
+        }
+        if (gameHasEnded && Input.GetKey(KeyCode.Return))
+        {
+            RestartGame();
+        }
+
         if (frightenedStateActive)
         {
             frightenedStateLength -= Time.deltaTime;
@@ -41,6 +59,18 @@ public class GameController : MonoBehaviour
         {
             EndGhostsFrightenedState();
         }
+    }
+
+    void StartGame()
+    {
+        player = Instantiate(player) as Player;
+        instructions.gameObject.SetActive(false);
+        foreach (Ghost ghost in ghosts)
+        {
+            ghost.Activate();
+        }
+        Camera.main.transform.position = new Vector3(0f, 0f, -10f);
+        gameHasStarted = true;
     }
 
     void CreatePelletsList()
@@ -60,13 +90,26 @@ public class GameController : MonoBehaviour
         {
             StartGhostsFrightenedState();
         }
-        UpdateScore(pellet);
+        UpdateScore(pellet.tag);
         Destroy(pellet);
 
         if (pellets.Count == 0)
         {
             LevelComplete();
         }
+    }
+
+    void UpdateScore(string objectEaten)
+    {
+        if (objectEaten == "SmallPellet")
+        {
+            hiScore += smallPelletPoints;
+        }
+        else if (objectEaten == "PowerPellet")
+        {
+            hiScore += powerPelletPoints;
+        }
+        hiScoreText.text = "HI-SCORE: " + hiScore;
     }
 
     void StartGhostsFrightenedState()
@@ -76,6 +119,7 @@ public class GameController : MonoBehaviour
             ghost.ActivateFrightenedState();
         }
         frightenedStateActive = true;
+        frightenedStateLength = 10f;
     }
 
     void EndGhostsFrightenedState()
@@ -123,8 +167,9 @@ public class GameController : MonoBehaviour
 
     public void PlayerHasDied()
     {
-        player.Death();
         DeactivateGhosts();
+        StartCoroutine(player.Death());
+        gameHasEnded = true;
     }
 
     private void DeactivateGhosts()
@@ -141,16 +186,8 @@ public class GameController : MonoBehaviour
         //end state logic
     }
 
-    void UpdateScore(GameObject pellet)
+    void RestartGame()
     {
-        if (pellet.tag == "SmallPellet")
-        {
-            hiScore += smallPelletPoints;
-        }
-        else if (pellet.tag == "PowerPellet")
-        {
-            hiScore += powerPelletPoints;
-        }
-        hiScoreText.text = "HI-SCORE: " + hiScore;
+        Application.LoadLevel(Application.loadedLevel);
     }
 }

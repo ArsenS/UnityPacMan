@@ -9,7 +9,7 @@ public class Teleporter : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.name == "PacMan")
+        if (collision.collider.tag == "Player")
         {
             gameController.GetPlayer().TeleportPlayer(gameObject);
         }

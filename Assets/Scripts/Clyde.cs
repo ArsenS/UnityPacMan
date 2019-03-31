@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Clyde : Ghost
 {
+    void Start()
+    {
+        base.Start();
+    }
 
     void Update()
     {
-        if (!isActive && timeToEnterMaze < 20f)
+        if (isActive && timeToEnterMaze < 20f)
         {
             timeToEnterMaze += Time.deltaTime;
             if (timeToEnterMaze >= 20f)
@@ -15,14 +19,17 @@ public class Clyde : Ghost
                 EnterMaze();
             }
         }
-        moveTime += Time.deltaTime;
-        if (CanChangeDirection())
+        else if (isActive)
         {
-            if (!CanMove(currentDirection) || moveTime > 1f)
+            moveTime += Time.deltaTime;
+            if (CanChangeDirection())
             {
-                StopMoving();
-                PickNewDirection();
-                moveTime = 0f;
+                if (!CanMove(currentDirection) || moveTime > 1f)
+                {
+                    StopMoving();
+                    PickNewDirection();
+                    moveTime = 0f;
+                }
             }
         }
     }

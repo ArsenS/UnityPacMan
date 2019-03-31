@@ -5,12 +5,10 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
-    [SerializeField]
     protected GameController gameController;
-
     private PolygonCollider2D polyCollider;
     private Rigidbody2D rb2D;
-    private Animator animator;
+    protected Animator animator;
 
     protected float timeToEnterMaze = 0f;
     protected bool isActive = false;
@@ -26,6 +24,7 @@ public class Ghost : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         polyCollider = GetComponent<PolygonCollider2D>();
         animator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -69,6 +68,11 @@ public class Ghost : MonoBehaviour
             animator.SetTrigger("movingRight");
         }
     }
+
+    void UpdateAnimatorTrigger(string trigger)
+    {
+        animator.SetTrigger(trigger);
+    }
     
     protected bool CanMove(Vector2 direction)
     {
@@ -86,9 +90,13 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    protected void EnterMaze()
+    public void Activate()
     {
         isActive = true;
+    }
+
+    protected void EnterMaze()
+    {
         rb2D.position += Vector2.up * 0.4f;
     }
 
@@ -153,22 +161,22 @@ public class Ghost : MonoBehaviour
     public void ActivateFrightenedState()
     {
         isFrightened = true;
-        animator.SetTrigger("isFrightened");
+        UpdateAnimatorTrigger("isFrightened");
     }
 
     public void DeactivateFrightenedState()
     {
         isFrightened = false;
-        animator.SetTrigger("backToNormal");
+        UpdateAnimatorTrigger("backToNormal");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "PacMan")
+        if (collision.tag == "Player")
         {
             if (isFrightened)
             {
-
+                animator.SetTrigger("wasEaten");
             }
             else
             {

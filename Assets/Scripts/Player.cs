@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     {
         Vector2 pos = transform.position;
         circleCollider.enabled = false; // disable to avoid colliding with itself
-        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.04f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.045f);
         circleCollider.enabled = true;
 
         if (hit.collider != null && (hit.collider.name == "LeftTeleporter" || hit.collider.name == "RightTeleporter"))
@@ -121,9 +121,11 @@ public class Player : MonoBehaviour
         rb2D.position = rb2D.position + new Vector2(4.5f, 0f);
     } 
 
-    public void Death()
+    public IEnumerator Death()
     {
         isAlive = false;
         animator.SetTrigger("hasDied");
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(false);
     }
 }

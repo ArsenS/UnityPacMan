@@ -11,7 +11,7 @@ public class Inky : Ghost
 
     void Update()
     {
-        if (!isActive && timeToEnterMaze < 10f)
+        if (isActive && timeToEnterMaze < 10f)
         {
             timeToEnterMaze += Time.deltaTime;
             if (timeToEnterMaze >= 10f)
@@ -19,14 +19,17 @@ public class Inky : Ghost
                 EnterMaze();
             }
         }
-        moveTime += Time.deltaTime;
-        if (CanChangeDirection())
+        else if (isActive)
         {
-            if (!CanMove(currentDirection) || moveTime > 1f)
+            moveTime += Time.deltaTime;
+            if (CanChangeDirection())
             {
-                StopMoving();
-                PickNewDirection();
-                moveTime = 0f;
+                if (!CanMove(currentDirection) || moveTime > 1f)
+                {
+                    StopMoving();
+                    PickNewDirection();
+                    moveTime = 0f;
+                }
             }
         }
     }
