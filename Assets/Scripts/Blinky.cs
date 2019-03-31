@@ -27,9 +27,10 @@ public class Blinky : Ghost
     
     void PickNewDirection()
     {
+        //Blinky tries to chase PacMan directly
         Vector2 choice = Vector2.zero;
         Vector2 ghostPosition = GetPosition();
-        target = gameManager.GetPlayerPosition();
+        target = gameController.GetPlayerPosition();
         Vector2 vectorToTarget = target - ghostPosition;
 
         Vector2 targetHorizontal = new Vector2(vectorToTarget.x, 0f).normalized;

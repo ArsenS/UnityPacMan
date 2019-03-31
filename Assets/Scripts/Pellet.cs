@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pellet : MonoBehaviour
 {
     [SerializeField]
-    private GameManager gameManager;
+    private GameController gameManager;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

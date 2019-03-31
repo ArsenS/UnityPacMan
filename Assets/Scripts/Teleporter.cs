@@ -5,13 +5,17 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     [SerializeField]
-    GameManager gameManager;
+    GameController gameController;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.collider.name == "PacMan")
         {
-            gameManager.TeleportPlayer(gameObject);
+            gameController.GetPlayer().TeleportPlayer(gameObject);
+        }
+        else if (collision.collider.tag == "Enemy")
+        {
+            print(collision);
         }
     }
 

@@ -86,6 +86,11 @@ public class Player : MonoBehaviour
         circleCollider.enabled = false; // disable to avoid colliding with itself
         RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.04f);
         circleCollider.enabled = true;
+
+        if (hit.collider != null && (hit.collider.name == "LeftTeleporter" || hit.collider.name == "RightTeleporter"))
+        {
+            return true;
+        }
         return (hit.collider == null);
     }
 
@@ -94,12 +99,24 @@ public class Player : MonoBehaviour
         return direction;
     }
 
-    public void TeleportLeft()
+    public void TeleportPlayer(GameObject teleporter)
+    {
+        if (teleporter.name == "LeftTeleporter")
+        {
+            TeleportRight();
+        }
+        if (teleporter.name == "RightTeleporter")
+        {
+            TeleportLeft();
+        }
+    }
+
+    void TeleportLeft()
     {
         rb2D.position = rb2D.position + new Vector2(-4.5f, 0f);
     }
 
-    public void TeleportRight()
+    void TeleportRight()
     {
         rb2D.position = rb2D.position + new Vector2(4.5f, 0f);
     } 

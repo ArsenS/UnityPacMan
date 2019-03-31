@@ -29,6 +29,7 @@ public class Clyde : Ghost
 
     void PickNewDirection()
     {
+        //Clyde does whatever he wants
         float randVal = Random.Range(0f, 1f);
         Vector2 choice;
         if (randVal < 0.25f)

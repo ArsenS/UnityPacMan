@@ -6,16 +6,15 @@ using UnityEngine;
 public class Ghost : MonoBehaviour
 {
     [SerializeField]
-    protected GameManager gameManager;
-    [SerializeField]
-    private GameObject scatterModeTarget;
+    protected GameController gameController;
 
     private PolygonCollider2D polyCollider;
-    protected Rigidbody2D rb2D;
+    private Rigidbody2D rb2D;
     private Animator animator;
 
     protected float timeToEnterMaze = 0f;
     protected bool isActive = false;
+    private bool isFrightened = false;
     protected float moveTime = 1.0f;
     protected Vector2 currentDirection;
     protected Vector2 previousDirection = Vector2.zero;
@@ -98,6 +97,21 @@ public class Ghost : MonoBehaviour
         UpdateDirection(Vector2.zero);
     }
 
+    public void TeleportGhost()
+    {
+
+    }
+
+    void TeleportLeft()
+    {
+        rb2D.position = rb2D.position + new Vector2(-4.5f, 0f);
+    }
+
+    public void TeleportRight()
+    {
+        rb2D.position = rb2D.position + new Vector2(4.5f, 0f);
+    }
+
     protected bool CanChangeDirection()
     {
         bool canChange = false;
@@ -136,11 +150,31 @@ public class Ghost : MonoBehaviour
         isActive = false;
     }
 
+    public void ActivateFrightenedState()
+    {
+        isFrightened = true;
+        animator.SetTrigger("isFrightened");
+    }
+
+    public void DeactivateFrightenedState()
+    {
+        isFrightened = false;
+        animator.SetTrigger("backToNormal");
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.name == "PacMan")
         {
-            gameManager.PlayerHasDied();
+            if (isFrightened)
+            {
+
+            }
+            else
+            {
+                gameController.PlayerHasDied();
+            }
+            
         }
     }
 }
