@@ -7,7 +7,7 @@ public class Clyde : Ghost
 
     void Update()
     {
-        if (!isActive)
+        if (!isActive && timeToEnterMaze < 20f)
         {
             timeToEnterMaze += Time.deltaTime;
             if (timeToEnterMaze >= 20f)

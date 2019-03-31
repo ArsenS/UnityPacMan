@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SmallPellet
   - PowerPellet
+  - Enemy
   layers:
   - Default
   - TransparentFX

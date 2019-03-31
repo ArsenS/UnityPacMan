@@ -11,7 +11,7 @@ public class Inky : Ghost
 
     void Update()
     {
-        if (!isActive)
+        if (!isActive && timeToEnterMaze < 10f)
         {
             timeToEnterMaze += Time.deltaTime;
             if (timeToEnterMaze >= 10f)

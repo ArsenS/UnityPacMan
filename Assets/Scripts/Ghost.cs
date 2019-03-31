@@ -21,7 +21,7 @@ public class Ghost : MonoBehaviour
     protected Vector2 previousDirection = Vector2.zero;
     protected Vector2 target;
 
-    public float speed = 0.5f;
+    public float speed = 1.0f;
        
 
     // Start is called before the first frame update
@@ -37,7 +37,7 @@ public class Ghost : MonoBehaviour
         if (isActive && CanMove(currentDirection))
         {
             UpdateAnimator();
-            rb2D.MovePosition(rb2D.position + currentDirection * speed * Time.fixedDeltaTime);
+            rb2D.MovePosition(rb2D.position + (currentDirection * 1.0f) * Time.fixedDeltaTime);
         }
     }
     
@@ -50,44 +50,7 @@ public class Ghost : MonoBehaviour
         }
         currentDirection = newDirection;
     }
-    
 
-    /* Manual ghost controls for debugging
-    void Update()
-    {
-        UpdateDirection();
-    }
-
-    void FixedUpdate()
-    {
-        if (CanMove(currentDirection))
-        {
-            UpdateAnimator();
-            rb2D.MovePosition(rb2D.position + (currentDirection * speed) * Time.fixedDeltaTime);
-        }
-    }
-
-    protected void UpdateDirection()
-    {
-        if (Input.GetKey(KeyCode.UpArrow) && CanMove(Vector2.up))
-        {
-            print("yoyo");
-            currentDirection = Vector2.up;
-        }
-        if (Input.GetKey(KeyCode.DownArrow) && CanMove(Vector2.down))
-        {
-            currentDirection = Vector2.down;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow) && CanMove(Vector2.left))
-        {
-            currentDirection = Vector2.left;
-        }
-        if (Input.GetKey(KeyCode.RightArrow) && CanMove(Vector2.right))
-        {
-            currentDirection = Vector2.right;
-        }
-    }
-    */
     void UpdateAnimator()
     {
         if (currentDirection == Vector2.up)
@@ -158,8 +121,6 @@ public class Ghost : MonoBehaviour
         return canChange;
     }
 
-
-
     protected bool IsValidNewDirection(Vector2 newDirection)
     {
         return (newDirection != previousDirection) && (newDirection != currentDirection);
@@ -168,6 +129,11 @@ public class Ghost : MonoBehaviour
     protected Vector2 GetPosition()
     {
         return rb2D.position;
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

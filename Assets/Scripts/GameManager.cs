@@ -7,11 +7,16 @@ public class GameManager : MonoBehaviour
 {
     private int hiScore;
     public Text hiScoreText;
+
     [SerializeField]
     private Player player;
     [SerializeField]
+    private Ghost[] ghosts;
+    [SerializeField]
+
     private Teleporter leftTeleporter, rightTeleporter;
     private List<Pellet> pellets;
+
 
     private int smallPelletPoints = 10;
     private int powerPelletPoints = 50;
@@ -76,9 +81,23 @@ public class GameManager : MonoBehaviour
         return player.transform.position;
     }
 
+    public Vector2 GetPlayerDirection()
+    {
+        return player.GetDirection();
+    }
+
     public void PlayerHasDied()
     {
         player.Death();
+        DeactivateGhosts();
+    }
+
+    private void DeactivateGhosts()
+    {
+        foreach (Ghost ghost in ghosts)
+        {
+            ghost.Deactivate();
+        }
     }
 
     void LevelComplete()

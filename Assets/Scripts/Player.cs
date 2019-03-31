@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private CircleCollider2D circleCollider;
     private Animator animator;
     private Vector2 direction;
+    private bool isAlive = true;
     public float speed;
 
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
         direction = new Vector2(0f, 0f);
-        speed = 1.0f;
+        speed = 1.25f;
     }
 
     // Update is called once per frame
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (CanMove(direction))
+        if (CanMove(direction) && isAlive)
         {
             UpdateAnimator();
             rb2D.MovePosition(rb2D.position + (direction * speed) * Time.fixedDeltaTime);
@@ -83,9 +84,14 @@ public class Player : MonoBehaviour
     {
         Vector2 pos = transform.position;
         circleCollider.enabled = false; // disable to avoid colliding with itself
-        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.05f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.04f);
         circleCollider.enabled = true;
         return (hit.collider == null);
+    }
+
+    public Vector2 GetDirection()
+    {
+        return direction;
     }
 
     public void TeleportLeft()
@@ -100,6 +106,7 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
+        isAlive = false;
         animator.SetTrigger("hasDied");
     }
 }

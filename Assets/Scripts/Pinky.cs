@@ -8,11 +8,11 @@ public class Pinky : Ghost
     {
         base.Start();
         EnterMaze();
+        UpdateDirection(Vector2.right);
     }
 
     void Update()
     {
-
         moveTime += Time.deltaTime;
         if (CanChangeDirection())
         {
@@ -27,31 +27,32 @@ public class Pinky : Ghost
 
     void PickNewDirection()
     {
-        float randVal = Random.Range(0f, 1f);
-        Vector2 choice;
-        if (randVal < 0.25f)
+        Vector2 choice = Vector2.zero;
+        Vector2 ghostPosition = GetPosition();
+        target = gameManager.GetPlayerPosition() + gameManager.GetPlayerDirection();
+        Vector2 vectorToTarget = target - ghostPosition;
+
+        Vector2 targetHorizontal = new Vector2(vectorToTarget.x, 0f).normalized;
+        Vector2 targetVertical = new Vector2(0f, vectorToTarget.y).normalized;
+
+
+        if (CanMove(targetVertical) && IsValidNewDirection(targetVertical))
         {
-            choice = Vector2.up;
-        } 
-        else if (randVal >= 0.25f && randVal < 0.5f)
-        {
-            choice = Vector2.down;
+            choice = targetVertical;
         }
-        else if (randVal >= 0.5f && randVal < 0.75f)
+        else if (CanMove(targetHorizontal) && IsValidNewDirection(targetHorizontal))
         {
-            choice = Vector2.left;
+            choice = targetHorizontal;
+        }
+        else if (CanMove(-targetHorizontal) && IsValidNewDirection(-targetHorizontal))
+        {
+            choice = -targetHorizontal;
         }
         else
         {
-            choice = Vector2.right;
+            choice = -targetVertical;
         }
-        if (IsValidNewDirection(choice))
-        {
-            UpdateDirection(choice);
-        }
-        else
-        {
-            PickNewDirection();
-        }
+
+        UpdateDirection(choice);
     }
 }

@@ -8,22 +8,11 @@ public class Blinky : Ghost
     void Start()
     {
         base.Start();
-        target = gameManager.GetPlayerPosition();
         isActive = true;
-}
+    }
     
     void Update()
     {
-        
-        if (CanChangeDirection())
-        {
-            //print("right: " + CanMove(Vector2.right));
-            //print("up: " + CanMove(Vector2.up));
-            //print("left: " + CanMove(Vector2.left));
-           // print("down: " + CanMove(Vector2.down));
-        }
-        
-        
         moveTime += Time.deltaTime;
          if (CanChangeDirection())
         {
