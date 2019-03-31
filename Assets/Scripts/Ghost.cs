@@ -11,35 +11,83 @@ public class Ghost : MonoBehaviour
     private GameObject scatterModeTarget;
 
     private PolygonCollider2D polyCollider;
-    private Rigidbody2D rb2D;
+    protected Rigidbody2D rb2D;
     private Animator animator;
 
-    protected int timerToEnterMaze, timerToChangePhase = 20;
-    protected Vector2 currentDirection = Vector2.left;
+    protected float timeToEnterMaze = 0f;
+    protected bool isActive = false;
+    protected float moveTime = 1.0f;
+    protected Vector2 currentDirection;
     protected Vector2 previousDirection = Vector2.zero;
     protected Vector2 target;
+
+    public float speed = 0.5f;
        
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        timerToEnterMaze = 0;
         polyCollider = GetComponent<PolygonCollider2D>();
         animator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
     }
+    
+    void FixedUpdate()
+    { 
+        if (isActive && CanMove(currentDirection))
+        {
+            UpdateAnimator();
+            rb2D.MovePosition(rb2D.position + currentDirection * speed * Time.fixedDeltaTime);
+        }
+    }
+    
+
+    protected void UpdateDirection(Vector2 newDirection)
+    {
+        if (currentDirection != Vector2.zero)
+        {
+            previousDirection = currentDirection;
+        }
+        currentDirection = newDirection;
+    }
+    
+
+    /* Manual ghost controls for debugging
+    void Update()
+    {
+        UpdateDirection();
+    }
 
     void FixedUpdate()
     {
-        UpdateAnimator();
-        if (CanMove(currentDirection)) rb2D.MovePosition(rb2D.position + (currentDirection) * Time.fixedDeltaTime);
+        if (CanMove(currentDirection))
+        {
+            UpdateAnimator();
+            rb2D.MovePosition(rb2D.position + (currentDirection * speed) * Time.fixedDeltaTime);
+        }
     }
 
-    protected Vector2 GetPosition()
+    protected void UpdateDirection()
     {
-        return rb2D.position;
+        if (Input.GetKey(KeyCode.UpArrow) && CanMove(Vector2.up))
+        {
+            print("yoyo");
+            currentDirection = Vector2.up;
+        }
+        if (Input.GetKey(KeyCode.DownArrow) && CanMove(Vector2.down))
+        {
+            currentDirection = Vector2.down;
+        }
+        if (Input.GetKey(KeyCode.LeftArrow) && CanMove(Vector2.left))
+        {
+            currentDirection = Vector2.left;
+        }
+        if (Input.GetKey(KeyCode.RightArrow) && CanMove(Vector2.right))
+        {
+            currentDirection = Vector2.right;
+        }
     }
-
+    */
     void UpdateAnimator()
     {
         if (currentDirection == Vector2.up)
@@ -60,18 +108,12 @@ public class Ghost : MonoBehaviour
         }
     }
     
-    protected void UpdateDirection(Vector2 newDirection)
-    {
-        previousDirection = currentDirection;
-        currentDirection = newDirection;
-    }
-
     protected bool CanMove(Vector2 direction)
     {
         Vector2 pos = transform.position;
-        polyCollider.enabled = false; // disable to avoid colliding with itself
-        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.18f, 0.18f), 0f, direction, 0.04f);
-        polyCollider.enabled = true;
+        //polyCollider.enabled = false; // disable to avoid colliding with itself
+        RaycastHit2D hit = Physics2D.BoxCast(pos, new Vector2(0.17f, 0.17f), 0f, direction, 0.05f);
+        //polyCollider.enabled = true;
         if (hit.collider != null)
         {
             return hit.collider.isTrigger;
@@ -80,6 +122,17 @@ public class Ghost : MonoBehaviour
         {
             return (hit.collider == null);
         }
+    }
+
+    protected void EnterMaze()
+    {
+        isActive = true;
+        rb2D.position += Vector2.up * 0.4f;
+    }
+
+    protected void StopMoving()
+    {
+        UpdateDirection(Vector2.zero);
     }
 
     protected bool CanChangeDirection()
@@ -105,9 +158,16 @@ public class Ghost : MonoBehaviour
         return canChange;
     }
 
+
+
     protected bool IsValidNewDirection(Vector2 newDirection)
     {
         return (newDirection != previousDirection) && (newDirection != currentDirection);
+    }
+
+    protected Vector2 GetPosition()
+    {
+        return rb2D.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -7,9 +7,23 @@ public class Clyde : Ghost
 
     void Update()
     {
-        if (!CanMove(currentDirection))
+        if (!isActive)
         {
-            PickNewDirection();
+            timeToEnterMaze += Time.deltaTime;
+            if (timeToEnterMaze >= 20f)
+            {
+                EnterMaze();
+            }
+        }
+        moveTime += Time.deltaTime;
+        if (CanChangeDirection())
+        {
+            if (!CanMove(currentDirection) || moveTime > 1f)
+            {
+                StopMoving();
+                PickNewDirection();
+                moveTime = 0f;
+            }
         }
     }
 

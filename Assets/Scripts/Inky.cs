@@ -4,11 +4,30 @@ using UnityEngine;
 
 public class Inky : Ghost
 {
+    void Start()
+    {
+        base.Start();
+    }
+
     void Update()
     {
-        if (!CanMove(currentDirection))
+        if (!isActive)
         {
-            PickNewDirection();
+            timeToEnterMaze += Time.deltaTime;
+            if (timeToEnterMaze >= 10f)
+            {
+                EnterMaze();
+            }
+        }
+        moveTime += Time.deltaTime;
+        if (CanChangeDirection())
+        {
+            if (!CanMove(currentDirection) || moveTime > 1f)
+            {
+                StopMoving();
+                PickNewDirection();
+                moveTime = 0f;
+            }
         }
     }
 

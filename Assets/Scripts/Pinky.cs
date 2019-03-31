@@ -7,13 +7,21 @@ public class Pinky : Ghost
     void Start()
     {
         base.Start();
+        EnterMaze();
     }
 
     void Update()
     {
-        if (!CanMove(currentDirection))
+
+        moveTime += Time.deltaTime;
+        if (CanChangeDirection())
         {
-            PickNewDirection();
+            if (!CanMove(currentDirection) || moveTime > 1f)
+            {
+                StopMoving();
+                PickNewDirection();
+                moveTime = 0f;
+            }
         }
     }
 
