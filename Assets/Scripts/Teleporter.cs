@@ -13,10 +13,5 @@ public class Teleporter : MonoBehaviour
         {
             gameController.GetPlayer().TeleportPlayer(gameObject);
         }
-        else if (collision.collider.tag == "Enemy")
-        {
-            print(collision);
-        }
     }
-
 }

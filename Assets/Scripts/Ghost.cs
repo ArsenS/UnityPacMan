@@ -105,9 +105,16 @@ public class Ghost : MonoBehaviour
         UpdateDirection(Vector2.zero);
     }
 
-    public void TeleportGhost()
+    public void TeleportGhost(string teleporter)
     {
-
+        if (teleporter == "LeftTeleporter")
+        {
+            TeleportRight();
+        }
+        else if (teleporter == "RightTeleporter")
+        {
+            TeleportLeft();
+        }
     }
 
     void TeleportLeft()
@@ -182,7 +189,11 @@ public class Ghost : MonoBehaviour
             {
                 gameController.PlayerHasDied();
             }
-            
+
+        }
+        else if (collision.name == "LeftTeleporter" || collision.name == "RightTeleporter")
+        {
+            TeleportGhost(collision.name);
         }
     }
 }
