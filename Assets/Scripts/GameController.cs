@@ -50,6 +50,10 @@ public class GameController : MonoBehaviour
         {
             RestartGame();
         }
+        if (gameHasEnded && Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 
         if (frightenedStateActive)
         {
@@ -76,8 +80,13 @@ public class GameController : MonoBehaviour
     void CreatePelletsList()
     {
         pellets = new List<Pellet>();
-        GameObject[] pelletsArray = GameObject.FindGameObjectsWithTag("SmallPellet");
-        foreach (GameObject pellet in pelletsArray)
+        GameObject[] smallPelletsArray = GameObject.FindGameObjectsWithTag("SmallPellet");
+        foreach (GameObject pellet in smallPelletsArray)
+        {
+            pellets.Add(pellet.GetComponent<Pellet>());
+        }
+        GameObject[] powerPelletsArray = GameObject.FindGameObjectsWithTag("PowerPellet");
+        foreach (GameObject pellet in powerPelletsArray)
         {
             pellets.Add(pellet.GetComponent<Pellet>());
         }
@@ -168,7 +177,7 @@ public class GameController : MonoBehaviour
     void GameOver(string message)
     {
         gameHasEnded = true;
-        instructions.text = message + "\n Press Enter to play again.";
+        instructions.text = message + "\n Press Enter to play again.\n Press Escape to Quit.";
     }
 
     void RestartGame()

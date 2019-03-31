@@ -9,7 +9,7 @@ public class Ghost : MonoBehaviour
     protected GameController gameController;
     private PolygonCollider2D polyCollider;
     private Rigidbody2D rb2D;
-    protected Animator animator;
+    private Animator animator;
 
     protected float timeToEnterMaze = 0f;
     protected bool isActive = false;
@@ -72,6 +72,10 @@ public class Ghost : MonoBehaviour
 
     void UpdateAnimatorTrigger(string trigger)
     {
+        if (trigger == "backToNormal")
+        {
+            animator.ResetTrigger("wasEaten");
+        }
         animator.SetTrigger(trigger);
     }
     
