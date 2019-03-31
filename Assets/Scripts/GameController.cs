@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
 
     private int smallPelletPoints = 10;
     private int powerPelletPoints = 50;
+    private int ghostPoints = 200;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +111,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void GhostEaten()
+    {
+        UpdateScore("Ghost");
+    }
+
     void UpdateScore(string objectEaten)
     {
         if (objectEaten == "SmallPellet")
@@ -119,6 +125,10 @@ public class GameController : MonoBehaviour
         else if (objectEaten == "PowerPellet")
         {
             hiScore += powerPelletPoints;
+        }
+        else if (objectEaten == "Ghost") 
+        {
+            hiScore += ghostPoints;
         }
         hiScoreText.text = "HI-SCORE: " + hiScore;
     }

@@ -106,7 +106,6 @@ public class Ghost : MonoBehaviour
     public void Deactivate()
     {
         isActive = false;
-        gameObject.SetActive(false);
     }
 
     protected void StopMoving()
@@ -172,13 +171,24 @@ public class Ghost : MonoBehaviour
     public void ActivateFrightenedState()
     {
         isFrightened = true;
+        polyCollider.enabled = true;
         UpdateAnimatorTrigger("isFrightened");
     }
 
     public void DeactivateFrightenedState()
     {
+        polyCollider.enabled = true;
         isFrightened = false;
         UpdateAnimatorTrigger("backToNormal");
+    }
+
+    IEnumerator GoBackToGhostHouseAndRevive()
+    {
+        gameObject.transform.position = new Vector2(0f, 0.48f);
+        Deactivate();
+        yield return new WaitForSeconds(1);
+        Activate();
+        DeactivateFrightenedState();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -188,9 +198,13 @@ public class Ghost : MonoBehaviour
             if (isFrightened)
             {
                 animator.SetTrigger("wasEaten");
+                polyCollider.enabled = false;
+                gameController.GhostEaten();
+                StartCoroutine(GoBackToGhostHouseAndRevive());
             }
             else
             {
+                polyCollider.enabled = false;
                 gameController.PlayerHasDied();
             }
         }
